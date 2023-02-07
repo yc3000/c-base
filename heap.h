@@ -36,6 +36,29 @@ static inline void __heap_replace(struct heap_head *head,
 				  struct heap_node *oldn,
 				  struct heap_node *newn)
 {
+	struct heap_node *parent, *left, *right;
+	parent = oldn->parent;
+	left = oldn->left;
+	right = oldn->right;
+
+	if (parent) {
+		if (parent->left == oldn)
+			parent->left = newn;
+		else
+			parent->right = newn;
+	} else {
+		head->root = newn;
+	}
+	if (left)
+		left->parent = newn;
+	if (right)
+		right->parent = newn;
+
+	newn->parent = parent;
+	newn->left = left;
+	newn->right = right;
+
+	oldn->left = oldn->right = oldn->parent = 0;
 }
 
 /* 父子节点进行交换 */
