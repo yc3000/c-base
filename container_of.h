@@ -3,7 +3,6 @@
 
 #include <stddef.h>
 
-#define container_of(ptr, type, member) (                           \
-        (type*)(((char*)((type*)(ptr))) - offsetof(type, member)))
+#define container_of(ptr, type, member) ((type*)(((char*)((type*)(ptr))) - offsetof(type, member)))
 
 #endif

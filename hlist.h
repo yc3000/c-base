@@ -24,15 +24,13 @@ struct hlist_head {
 static inline void hlist_add_head(struct hlist_node *entry, struct hlist_head *head) {
     entry->next = head->first;
     entry->pprev = &head->first;
-    if (head->first != 0)
-        head->first->pprev = &entry->next;
+    if (head->first != 0) head->first->pprev = &entry->next;
     head->first = entry;
 }
 
 static inline void __hlist_del(struct hlist_node *entry) {
     *entry->pprev = entry->next;
-    if (entry->next)
-        entry->next->pprev = entry->pprev;
+    if (entry->next) entry->next->pprev = entry->pprev;
 }
 
 static inline void hlist_del_init(struct hlist_node *entry) {

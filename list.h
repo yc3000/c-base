@@ -28,7 +28,9 @@ static inline void list_head_init(struct list_head *head) {
 
    如果链表闭环, 则为空
 */
-static inline bool list_empty(struct list_head *head) { return head->next == head; }
+static inline bool list_empty(struct list_head *head) {
+    return head->next == head;
+}
 
 static inline void __list_add(struct list_head *e, struct list_head *p, struct list_head *n) {
     e->prev = p;
@@ -57,9 +59,7 @@ static inline void list_del_init(struct list_head *entry) {
     }
 }
 
-#define list_foreach_entry(pos, head, member)                           \
-    for ((pos) = list_entry((head)->next, typeof(*(pos)), member);      \
-         &(pos)->member != (head);                                      \
-         (pos) = list_entry((pos)->member.next, typeof(*(pos)), member))
+#define list_foreach_entry(pos, head, member) \
+    for ((pos) = list_entry((head)->next, typeof(*(pos)), member); &(pos)->member != (head); (pos) = list_entry((pos)->member.next, typeof(*(pos)), member))
 
 #endif

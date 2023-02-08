@@ -11,13 +11,10 @@
 
    本质是封装一个长度固定的静态数组作为桶数组, 数组元素是链表.
 */
-#define DECLARE_HASHTABLE(name, bits)           \
-    struct hlist_head name[1 << (bits)]
+#define DECLARE_HASHTABLE(name, bits) struct hlist_head name[1 << (bits)]
 
-static inline void __hash_init(struct hlist_head *hashtable,
-                                    unsigned int sz) {
-    for (unsigned int i = 0; i < sz; ++i)
-        hlist_head_init(&hashtable[i]);
+static inline void __hash_init(struct hlist_head *hashtable, unsigned int sz) {
+    for (unsigned int i = 0; i < sz; ++i) hlist_head_init(&hashtable[i]);
 }
 
 /**
@@ -26,8 +23,7 @@ static inline void __hash_init(struct hlist_head *hashtable,
 
   哈希数组必须是静态数组, see @DECLARE_HASHTABLE
  */
-#define hash_init(hashtable)                       \
-    __hash_init(hashtable, hash_size(hashtable))
+#define hash_init(hashtable) __hash_init(hashtable, hash_size(hashtable))
 
 /**
    插入节点到哈希表
@@ -35,8 +31,7 @@ static inline void __hash_init(struct hlist_head *hashtable,
    @node:节点
    @key: 关键词
  */
-#define hash_add(hashtable, node, key)                             \
-    hlist_add_head((node), &((hashtable)[hash_min(key, hash_bits(hashtable))]))
+#define hash_add(hashtable, node, key) hlist_add_head((node), &((hashtable)[hash_min(key, hash_bits(hashtable))]))
 
 /**
    删除节点, 从哈希表中
