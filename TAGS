@@ -1,0 +1,212 @@
+
+array.c,499
+void array_init(struct array *a) {array_init7,62
+void array_destory(struct array *a) {array_destory13,152
+int array_push(struct array *a, const void *data, size_t sz) {array_push25,411
+size_t array_pop(struct array *a, void *data, size_t sz) {array_pop34,620
+static int array_capacity(struct array *a, size_t newcap) {array_capacity42,827
+static int array_resize(struct array *a, size_t newsize) {array_resize79,1600
+int array_reverse(struct array *a, size_t sz) {array_reverse96,1972
+
+array-test,0
+
+list-test.c,211
+struct val {val8,80
+  int v;v9,93
+  struct list_head head;head10,102
+  void *ptr;ptr11,127
+void test_list_add_and_del() {test_list_add_and_del14,144
+int main() { test_list_add_and_del(); }main49,845
+
+ringbuf.h,343
+#define _C_BASE_RINGBUF_H_C_BASE_RINGBUF_H2,26
+struct ringbuf {ringbuf11,135
+  unsigned char *data;data12,152
+  size_t size;size13,175
+  size_t head;head14,190
+  size_t tail;tail15,205
+#define ringbuf_size(ringbuf_size21,276
+#define ringbuf_used_size(ringbuf_used_size26,385
+#define ringbuf_free_size(ringbuf_free_size33,648
+
+timer.h,1135
+#define _C_BASE_TIMER_H_C_BASE_TIMER_H2,24
+#define TIMER_VEC_NODE_BITS TIMER_VEC_NODE_BITS13,228
+#define TIMER_VEC_ROOT_BITS TIMER_VEC_ROOT_BITS14,258
+#define TIMER_VEC_NODE_SIZE TIMER_VEC_NODE_SIZE15,288
+#define TIMER_VEC_ROOT_SIZE TIMER_VEC_ROOT_SIZE16,343
+#define TIMER_VEC_NODE_MARK TIMER_VEC_NODE_MARK17,398
+#define TIMER_VEC_ROOT_MARK TIMER_VEC_ROOT_MARK18,452
+struct timer_vec {timer_vec20,507
+  struct list_head vec[TIMER_VEC_NODE_SIZE];vec21,526
+struct timer_vec_root {timer_vec_root24,575
+  struct list_head vec[TIMER_VEC_ROOT_SIZE];vec25,599
+struct timer_core {timer_core28,648
+  uint32_t timer_jiffies;timer_jiffies29,668
+  struct timer_vec *tves[6];tves30,694
+  struct timer_vec_root tv1;tv131,723
+  struct timer_vec tv2;tv232,752
+  struct timer_vec tv3;tv333,776
+  struct timer_vec tv4;tv434,800
+  struct timer_vec tv5;tv535,824
+struct timer_node {timer_node38,852
+  struct list_head head;head39,872
+  uint32_t expires;expires40,897
+  uint32_t state;state41,917
+  void *data;data42,935
+  void (*callback)(void *data);callback43,949
+  struct timer_core *core;core44,981
+
+timer.c,1115
+#define TIMER_NODE_STATE_OK TIMER_NODE_STATE_OK8,86
+#define TIMER_NODE_STATE_BAD TIMER_NODE_STATE_BAD9,121
+static void timer_internal_add(struct timer_core *core,timer_internal_add11,158
+static inline timer_internal_update(struct timer_core *core,timer_internal_update26,576
+void timer_core_init(struct timer_core *core, uint32_t jiffies) {timer_core_init31,697
+  union {__anone1fe8b57010a34,797
+    struct timer_vec_root *vr;vr35,807
+    struct timer_vec *vn;vn36,838
+void timer_core_destory(struct timer_core *core) {timer_core_destory58,1348
+void timer_core_run(struct timer_core *core, uint32_t jiffies) {timer_core_run77,1889
+void timer_node_init(struct timer_node *node, void (*fn)(void *), void *data) {timer_node_init81,1997
+void timer_node_destory(struct timer_node *node) {timer_node_destory90,2234
+void timer_node_add(struct timer_core *core, struct timer_node *node,timer_node_add108,2617
+int timer_node_del(struct timer_core *core, struct timer_node *node) {timer_node_del122,2936
+int timer_node_mod(struct timer_core *core, struct timer_node *node,timer_node_mod134,3211
+
+array.h,292
+#define _C_BASE_ARRAY_H_C_BASE_ARRAY_H2,24
+struct array {array10,117
+  unsigned char *data;data11,132
+  size_t size;size12,155
+  size_t capacity;capacity13,170
+#define array_capacity(array_capacity20,228
+#define array_size(array_size21,270
+#define array_data(array_data22,304
+
+ringbuf-test.c,176
+void print_size_and_cap(struct ringbuf *r) {print_size_and_cap7,63
+void test_read_and_write() {test_read_and_write13,291
+int main() { test_read_and_write(); }main52,1049
+
+heap.h,957
+#define __C_BASE_HEAP_H__C_BASE_HEAP_H2,24
+struct heap_node {heap_node8,111
+  struct heap_node *parent, *left, *right;parent9,130
+  struct heap_node *parent, *left, *right;left9,130
+  struct heap_node *parent, *left, *right;right9,130
+typedef bool (*compare_fn)(const struct heap_node *l,compare_fn12,177
+struct heap_root {heap_root15,287
+  struct heap_node *root;root16,306
+  int nums;nums17,332
+  compare_fn compare;compare18,344
+static inline void heap_root_init(struct heap_root *r, compare_fn compare) {heap_root_init21,370
+static inline void heap_node_init(struct heap_node *n) {heap_node_init27,507
+static inline void __heap_swap(struct heap_root *hroot,__heap_swap33,624
+static inline void __heap_replace(struct heap_root *hroot,__heap_replace78,1653
+static inline void heap_add(struct heap_root *hroot, struct heap_node *node) {heap_add107,2418
+static inline void heap_pop(struct heap_root *hroot) {heap_pop153,3226
+
+ringbuf.c,478
+void ringbuf_init(struct ringbuf *r, void *buf, size_t sz) {ringbuf_init7,64
+void ringbuf_destory(struct ringbuf *r) {ringbuf_destory14,208
+size_t ringbuf_drop(struct ringbuf *r, size_t sz) {ringbuf_drop21,313
+size_t ringbuf_write(struct ringbuf *r, const void *data, size_t sz) {ringbuf_write31,538
+size_t ringbuf_peek(struct ringbuf *r, void *data, size_t sz) {ringbuf_peek56,1061
+size_t ringbuf_read(struct ringbuf *r, void *data, size_t sz) {ringbuf_read76,1504
+
+container_of.h,99
+#define _C_BASE_CONTAINER_OF_H_C_BASE_CONTAINER_OF_H2,31
+#define container_of(container_of6,84
+
+array-test.c,193
+#define SIZE SIZE7,61
+struct val {val9,78
+  int nums[10];nums10,91
+void test_push_and_pop() {test_push_and_pop13,111
+void test_reverse() {test_reverse41,689
+int main() {main72,1347
+
+hashtable.h,2612
+#define _C_BASE_HASHTABLE_H_C_BASE_HASHTABLE_H2,28
+struct hlist_node {hlist_node15,194
+  struct hlist_node **pprev;pprev16,214
+  struct hlist_node *next;next17,243
+struct hlist_head {hlist_head20,274
+  struct hlist_node *first;first21,294
+#define HLIST_HEAD_INITIALIZE(HLIST_HEAD_INITIALIZE24,326
+#define HLIST_HEAD(HLIST_HEAD26,381
+#define hlist_head_init(hlist_head_init28,451
+#define hlist_entry(hlist_entry30,499
+static inline void hlist_node_init(struct hlist_node *node) {hlist_node_init32,572
+static inline bool hlist_unhashed(struct hlist_node *node) {hlist_unhashed37,680
+static inline bool hlist_head_empty(struct hlist_head *head) {hlist_head_empty41,767
+static inline void hlist_add_head(struct hlist_node *node,hlist_add_head45,856
+static inline void list_add_before(struct hlist_node *node,list_add_before56,1148
+static inline void hlist_add_after(struct hlist_node *node,hlist_add_after65,1394
+static inline void __hlist_del(struct hlist_node *node) {__hlist_del74,1653
+static inline void hlist_del(struct hlist_node *node) {hlist_del81,1806
+static inline void hlist_del_init(struct hlist_node *node) {hlist_del_init87,1929
+#define hlist_for_each(hlist_for_each94,2078
+#define DECLARE_HASHTABLE(DECLARE_HASHTABLE101,2192
+#define __array_size(__array_size103,2261
+#define hash_size hash_size105,2325
+#define __hashtable_init(__hashtable_init107,2357
+#define hashtable_init(hashtable_init114,2572
+static inline bool __hashtable_empty(struct hlist_head *head, size_t n) {__hashtable_empty116,2636
+#define hashtable_empty(hashtable_empty125,2831
+static inline bool hashtable_hashed(struct hlist_node *node) {hashtable_hashed127,2897
+static inline void hashtable_del(struct hlist_node *node) { hlist_del(node); }hashtable_del131,2995
+static inline int __ilog2_u32(uint32_t n) { return fls(n) - 1; }__ilog2_u32137,3126
+static inline int __ilog2_u64(uint64_t n) { return fls64(n) - 1; }__ilog2_u64139,3192
+#define ilog2(ilog2141,3260
+#define hash_bits(hash_bits143,3329
+#define GOLDEN_RATIO_32 GOLDEN_RATIO_32145,3373
+#define GOLDEN_RATIO_64 GOLDEN_RATIO_64146,3408
+#define __hash_32 __hash_32148,3455
+static inline uint32_t __hash_32_generic(uint32_t u) {__hash_32_generic149,3491
+#define hash_32 hash_32153,3579
+static inline uint32_t hash_32_generic(uint32_t val, unsigned int bits) {hash_32_generic154,3611
+#define hash_64 hash_64158,3728
+static inline uint32_t hash_64_generic(uint64_t val, unsigned int bits) {hash_64_generic159,3760
+#define hash_min(hash_min163,3884
+#define hashtable_add(hashtable_add166,3978
+
+list.h,1868
+#define _C_BASE_LIST_H_C_BASE_LIST_H2,23
+struct list_head {list_head14,226
+  struct list_head *prev, *next;prev15,245
+  struct list_head *prev, *next;next15,245
+#define list_entry(list_entry18,282
+static inline void list_head_init(struct list_head *head) {list_head_init20,353
+static inline void __list_add(struct list_head *node, struct list_head *prev,__list_add25,458
+static inline void __list_del(struct list_head *prev, struct list_head *next) {__list_del33,679
+static inline void __list_del_entry(struct list_head *entry) {__list_del_entry38,804
+static inline void list_add_head(struct list_head *entry,list_add_head42,910
+static inline void list_add_tail(struct list_head *entry,list_add_tail47,1069
+static inline void list_del_init(struct list_head *entry) {list_del_init52,1228
+#define list_for_each(list_for_each57,1343
+#define list_for_each_entry(list_for_each_entry60,1446
+static inline void list_replace(struct list_head *olde,list_replace65,1718
+static inline bool list_is_empty(struct list_head *head) {list_is_empty77,2006
+static inline void __list_splice(struct list_head *list,__list_splice81,2097
+static inline void list_splice(struct list_head *list, struct list_head *head) {list_splice97,2475
+static inline void list_splice_init(struct list_head *list,list_splice_init104,2672
+struct hlist_node {hlist_node113,2883
+  struct hlist_node **pprev, *next;pprev114,2903
+  struct hlist_node **pprev, *next;next114,2903
+struct hlist_head {hlist_head117,2943
+  struct hlist_node *first;first118,2963
+#define hlist_node_entry(hlist_node_entry121,2995
+static inline void hlist_node_init(struct hlist_node *node) {hlist_node_init123,3072
+static inline void hlist_add_head(struct hlist_head *head,hlist_add_head128,3180
+static inline void hlist_del_init(struct hlist_node *node) {hlist_del_init136,3421
+
+a.out,0
+
+ringbuf-test,0
+
+hashtable-test.c,23
+int main() {main5,44
+
+list-test,0
